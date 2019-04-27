@@ -1,20 +1,20 @@
 // ActionTypes, just for convenience of String references
 
 export const ActionTypes = {
-  INCREMENT: 'INCREMENT',
-  DECREMENT: 'DECREMENT',
+  MAKE_POST: 'MAKE_POST',
+  REMOVE_POST: 'REMOVE_POST',
 };
 
-export function increment() {
+export function makePost() {
   return {
-    type: ActionTypes.INCREMENT,
+    type: ActionTypes.MAKE_POST,
     payload: null,
   };
 }
 
-export function decrement() {
+export function removePost() {
   return {
-    type: ActionTypes.DECREMENT,
+    type: ActionTypes.REMOVE_POST,
     payload: null,
   };
 }
