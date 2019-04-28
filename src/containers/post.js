@@ -5,21 +5,34 @@ import { withRouter } from 'react-router-dom';
 // imports ActionCreators
 import { removePost } from '../actions';
 
-const Post = (props) => {
-  if (props.post === null) {
-    // props.history.push('/error');
-    return (<div>404: post not found</div>);
-  } else {
-    console.log(props.post);
-    return (
-      <div>
-        {props.match.params.id}
-        {props.post.title}
-        <button type="button" onClick={() => props.removePost(props.post._id, props.history)}>Delete Post</button>
-      </div>
-    );
+class Post extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isEditing: false,
+    };
   }
-};
+
+  renderIfEditing = () => {
+    return null;
+  }
+
+  render() {
+    if (this.props.post === null) {
+      // props.history.push('/error');
+      return (<div>404: post not found</div>);
+    } else {
+      console.log(this.props.post);
+      return (
+        <div>
+          {this.props.match.params.id}
+          {this.props.post.title}
+          <button type="button" onClick={() => this.props.removePost(this.props.post._id, this.props.history)}>Delete Post</button>
+        </div>
+      );
+    }
+  }
+}
 
 const mapStateToProps = state => (
   {
