@@ -5,9 +5,10 @@ import {
 
 import Posts from '../containers/posts';
 import Post from '../containers/post';
-import NewPost from '../containers/newpost';
+import NewPost from '../containers/new-post';
+import ErrorPage from './error';
 
-const Nav = (props) => {
+const Nav = () => {
   return (
     <nav>
       <ul>
@@ -27,6 +28,7 @@ const App = () => {
           <Route exact path="/" component={Posts} />
           <Route path="/posts/new" component={NewPost} />
           <Route exact path="/posts/:id" component={Post} />
+          <Route path="/error" component={ErrorPage} />
           <Route render={() => (<div>404: post not found</div>)} />
         </Switch>
       </div>

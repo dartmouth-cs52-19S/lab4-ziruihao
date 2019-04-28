@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import PostReducer from './post-reducer';
 
 const rootReducer = combineReducers({
-  count: PostReducer,
+  posts: PostReducer,
 });
 
 export default rootReducer;
