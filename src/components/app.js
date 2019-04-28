@@ -29,7 +29,7 @@ const App = () => {
           <Route path="/posts/new" component={NewPost} />
           <Route exact path="/posts/:id" component={Post} />
           <Route path="/error" component={ErrorPage} />
-          <Route render={() => (<div>404: post not found</div>)} />
+          <Route component={ErrorPage} />
         </Switch>
       </div>
     </Router>

@@ -2,7 +2,7 @@ import { ActionTypes } from '../actions';
 
 const initialState = {
   all: [],
-  current: {},
+  current: null,
 };
 
 const PostReducer = (state = initialState, action) => {

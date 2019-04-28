@@ -68,8 +68,8 @@ export function removePost(id, history) {
     axios.delete(`${ROOT_URL}/posts/${id}${API_KEY}`).then((response) => {
       console.log(response);
       fetchPosts();
-      dispatch({ type: ActionTypes.REMOVE_POST, payload: {} });
-      // history.push('/');
+      dispatch({ type: ActionTypes.REMOVE_POST, payload: null });
+      history.push('/');
     }).catch((error) => {
       console.log(error);
     });
