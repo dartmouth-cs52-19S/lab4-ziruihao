@@ -34,10 +34,11 @@ export function fetchPosts() {
  * Makes a post the current post.
  * @param {*} id
  */
-export function currentizePost(id) {
+export function currentizePost(id, history) {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/posts/${id}${API_KEY}`).then((response) => {
       dispatch({ type: ActionTypes.CURRENTIZE_POST, payload: response.data });
+      history.push(`/posts/${id}`);
     }).catch((error) => {
       console.log(error);
     });
@@ -51,9 +52,9 @@ export function makePost(post, history) {
   return () => {
     axios.post(`${ROOT_URL}/posts${API_KEY}`, post).then((response) => {
       fetchPosts();
-      currentizePost(response.data.id);
+      // currentizePost(response.data.id);
       // dispatch({ type: ActionTypes.MAKE_POST, payload: response.data });
-      history.push(`/posts/${response.data._id}`);
+      history.push('/');
     }).catch((error) => {
       console.log(error);
     });
