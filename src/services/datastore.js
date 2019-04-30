@@ -14,6 +14,9 @@ firebase.initializeApp(config);
 
 const provider = new firebase.auth.GoogleAuthProvider();
 
+/**
+ * Logs the user in via firebase.
+ */
 export function auth(uidCallback) {
   firebase.auth().signInWithPopup(provider).then((result) => {
     const { uid } = result.user;
@@ -26,6 +29,9 @@ export function auth(uidCallback) {
   });
 }
 
+/**
+ * Logs the user out via firebase.
+ */
 export function deAuth() {
   firebase.auth().signOut().then(() => {
   }).catch((error) => {

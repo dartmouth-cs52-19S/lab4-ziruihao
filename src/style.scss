@@ -39,11 +39,27 @@ body {
     align-items: center;
   }
   #blogStuff {
-    padding: 0 32px 0 32px;
+    padding: 32px 32px 0 32px;
     #submitArea {
       padding-top: 32px;
       display: flex;
       justify-content: center;
     }
+  }
+}
+#welcome {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  #welcomeCard {
+      #buttonArea {
+          margin-top: 20px;
+          margin-bottom: 50px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+      }
   }
 }

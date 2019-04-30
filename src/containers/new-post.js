@@ -6,12 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import CardMedia from '@material-ui/core/CardMedia';
 import red from '@material-ui/core/colors/red';
-import CardHeader from '@material-ui/core/CardHeader';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
@@ -30,16 +25,13 @@ const styles = ({
     paddingTop: '56.25%', // 16:9
   },
   padded: {
-    padding: '16px 0 0 0',
+    padding: '0 0 16px 0',
   },
   moreSpace: {
     lineHeight: '200%',
   },
   avatar: {
     backgroundColor: red[500],
-  },
-  textField: {
-    margin: '16px 0 0 0',
   },
   tagsArea: {
     padding: '16px 0 0 0',
@@ -128,7 +120,7 @@ class NewPost extends React.Component {
             <TextField
               id="title"
               label="Title"
-              className={classnames(classes.textField)}
+              className={classnames(classes.padded)}
               value={this.state.input.title}
               onChange={this.onInputChange}
               placeholder={this.state.input.title}
@@ -139,7 +131,7 @@ class NewPost extends React.Component {
             <TextField
               id="content"
               label="Content"
-              className={classnames(classes.textField)}
+              className={classnames(classes.padded)}
               value={this.state.input.content}
               onChange={this.onInputChange}
               placeholder={this.state.input.content}
@@ -150,7 +142,7 @@ class NewPost extends React.Component {
             <TextField
               id="tags"
               label="Tags - format like '#tag1 #tag2'"
-              className={classnames(classes.textField)}
+              className={classnames(classes.padded)}
               value={this.state.input.tags}
               onChange={this.onInputChange}
               placeholder={this.state.input.tags}
@@ -161,7 +153,7 @@ class NewPost extends React.Component {
             <TextField
               id="cover-url"
               label="Cover image url"
-              className={classnames(classes.textField)}
+              className={classnames(classes.padded)}
               value={this.state.input.cover_url}
               onChange={this.onInputChange}
               placeholder={this.state.input.cover_url}

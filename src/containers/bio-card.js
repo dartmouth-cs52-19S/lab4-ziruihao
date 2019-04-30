@@ -21,6 +21,9 @@ const styles = {
   actions: {
     justifyContent: 'center',
   },
+  login: {
+    margin: '50px 60px 50px 60px',
+  },
 };
 
 function BioCard(props) {
@@ -38,13 +41,13 @@ function BioCard(props) {
             {props.user.displayName}
           </Typography>
           <Typography component="p">
-            I am a computer science and philosophy major at Dartmouth College. This is my blog.
+              I am a computer science and philosophy major at Dartmouth College. This is my blog.
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions className={classes.actions}>
         <Button size="small" color="secondary">
-          Follow
+            Follow
         </Button>
       </CardActions>
     </Card>

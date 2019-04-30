@@ -54,12 +54,23 @@ const styles = theme => ({
 });
 
 class PostCard extends React.Component {
-  state = { anchorEl: null };
+  constructor(props) {
+    super(props);
+    this.state = {
+      anchorEl: null,
+    };
+  }
 
+  /**
+   * When the additional menu opens.
+   */
   handleMenuOpen = (event) => {
     this.setState({ anchorEl: event.currentTarget });
   };
 
+  /**
+   * Closing the additional menu.
+   */
   handleMenuClose = () => {
     this.setState({ anchorEl: null });
   };
@@ -76,7 +87,7 @@ class PostCard extends React.Component {
         open={isMenuOpen}
         onClose={this.handleMenuClose}
       >
-        <MenuItem onClick={this.handleMenuClose}>Pin</MenuItem>
+        <MenuItem onClick={() => { this.props.goTo(this.props.post.id); this.handleMenuClose(); }}>View</MenuItem>
         <MenuItem onClick={() => { this.props.removePost(this.props.post.id, this.props.history); this.handleMenuClose(); }}>Delete</MenuItem>
       </Menu>
     );
@@ -87,7 +98,7 @@ class PostCard extends React.Component {
       <Card className={classes.card}>
         <CardHeader
           avatar={(
-            <Avatar aria-label="Recipe" className={classes.avatar}>
+            <Avatar aria-label="User" className={classes.avatar}>
               {this.props.user.initials}
             </Avatar>
           )}
@@ -108,13 +119,13 @@ class PostCard extends React.Component {
           {tags}
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
-          <IconButton aria-label="Add to favorites">
+          <IconButton aria-label="Add to favorites" onClick={this.props.openSnack}>
             <FavoriteIcon />
           </IconButton>
           <IconButton aria-label="Share">
             <ShareIcon />
           </IconButton>
-          <Button onClick={() => this.props.goTo(this.props.post.id)} className={classes.expand} color="primary">View</Button>
+          <Button onClick={() => this.props.goTo(this.props.post.id)} className={classes.expand} color="secondary">View</Button>
         </CardActions>
         {renderMenu}
       </Card>
