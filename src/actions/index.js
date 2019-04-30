@@ -6,6 +6,7 @@ export const ActionTypes = {
   UPDATE_POST: 'UPDATE_POST',
   REMOVE_POST: 'REMOVE_POST',
   FETCH_POSTS: 'FETCH_POSTS',
+  UPDATE_USER_INFO: 'UPDATE_USER_INFO',
 };
 
 const ROOT_URL = 'https://cs52-blog.herokuapp.com/api';
@@ -87,5 +88,15 @@ export function removePost(id, history) {
     }).catch((error) => {
       console.log(error);
     });
+  };
+}
+
+/**
+ * Updates based on user login.
+ */
+export function updateUserInfo(user) {
+  return {
+    type: ActionTypes.UPDATE_USER_INFO,
+    payload: user,
   };
 }

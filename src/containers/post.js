@@ -25,7 +25,6 @@ import CardContent from '@material-ui/core/CardContent';
 import classnames from 'classnames';
 
 // imports ActionCreators
-
 import { updatePost } from '../actions';
 
 const styles = ({
@@ -192,7 +191,7 @@ class Post extends React.Component {
               <CardHeader
                 avatar={(
                   <Avatar className={classes.avatar}>
-                    ZH
+                    {this.props.user.initials}
                   </Avatar>
                 )}
                 action={(
@@ -319,6 +318,7 @@ class Post extends React.Component {
 const mapStateToProps = state => (
   {
     post: state.posts.current,
+    user: state.users,
   }
 );
 

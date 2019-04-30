@@ -2,15 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+// material-ui imports
 import PostCard from '../components/post-card';
 import BioCard from './bio-card';
+
+// actions imports
 import { currentizePost, fetchPosts, makePost } from '../actions';
 
 class Posts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      foo: {},
+      foo: {}, // this will come into play once we are able to design our own backend with customized data
     };
   }
 
@@ -40,11 +43,11 @@ class Posts extends React.Component {
   // }
 
   render() {
-    const posts = this.props.all.map(post => <PostCard goTo={this.goTo} key={post.id} post={post} />);
+    const posts = this.props.all.map(post => <PostCard goTo={this.goTo} key={post.id} post={post} user={this.props.user} />);
     return (
       <div id="blog">
         <div id="bio">
-          <BioCard />
+          <BioCard user={this.props.user} />
         </div>
         <div id="posts">
           {posts}
@@ -54,12 +57,10 @@ class Posts extends React.Component {
   }
 }
 
-// <button type="button" onClick={this.props.fetchPosts}>Get Posts</button>
-// <button type="button" onClick={this.makePost}>Make Post</button>
-
 const mapStateToProps = state => (
   {
     all: state.posts.all,
+    user: state.users,
   }
 );
 

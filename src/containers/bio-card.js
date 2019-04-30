@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 // material-ui imports
@@ -31,12 +30,12 @@ function BioCard(props) {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
+          image={props.user.photoURL}
+          title="User photo"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Zirui Hao
+            {props.user.displayName}
           </Typography>
           <Typography component="p">
             I am a computer science and philosophy major at Dartmouth College. This is my blog.
@@ -52,10 +51,4 @@ function BioCard(props) {
   );
 }
 
-const mapStateToProps = state => (
-  {
-    user: state.user,
-  }
-);
-
-export default withRouter(connect(mapStateToProps, null)(withStyles(styles)(BioCard)));
+export default withRouter(withStyles(styles)(BioCard));
