@@ -15,6 +15,10 @@ const PostReducer = (state = initialState, action) => {
       return (Object.assign({}, state, {
         current: action.payload,
       }));
+    case ActionTypes.UPDATE_POST:
+      return (Object.assign({}, state, {
+        current: action.payload,
+      }));
     case ActionTypes.REMOVE_POST:
       return (Object.assign({}, state, {
         current: null,

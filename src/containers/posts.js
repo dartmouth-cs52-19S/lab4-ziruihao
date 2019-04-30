@@ -48,7 +48,6 @@ class Posts extends React.Component {
         </div>
         <div id="posts">
           {posts}
-
         </div>
       </div>
     );

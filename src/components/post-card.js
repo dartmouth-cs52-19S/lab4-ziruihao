@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 
-// material-ui improts
+// material-ui imports
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -20,6 +20,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Chip from '@material-ui/core/Chip';
 
 // actions imports
 import { removePost } from '../actions';
@@ -34,6 +35,12 @@ const styles = theme => ({
     height: 0,
     paddingTop: '56.25%', // 16:9
   },
+  tagsArea: {
+    padding: 8,
+  },
+  chip: {
+    margin: '0 2px 0 2px',
+  },
   actions: {
     display: 'flex',
   },
@@ -44,9 +51,6 @@ const styles = theme => ({
       duration: theme.transitions.duration.shortest,
     }),
   },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
   avatar: {
     backgroundColor: red[500],
   },
@@ -54,7 +58,6 @@ const styles = theme => ({
 
 class PostCard extends React.Component {
   state = { anchorEl: null };
-
 
   handleMenuOpen = (event) => {
     this.setState({ anchorEl: event.currentTarget });
@@ -65,7 +68,8 @@ class PostCard extends React.Component {
   };
 
   render() {
-    console.log(this.props.post.id);
+    const { classes } = this.props;
+
     const isMenuOpen = Boolean(this.state.anchorEl);
     const renderMenu = (
       <Menu
@@ -80,7 +84,7 @@ class PostCard extends React.Component {
       </Menu>
     );
 
-    const { classes } = this.props;
+    const tags = this.props.post.tags.split(' ').map(tag => <Chip key={tag} label={tag} className={classes.chip} />);
 
     return (
       <Card className={classes.card}>
@@ -103,7 +107,9 @@ class PostCard extends React.Component {
           image={this.props.post.cover_url}
           title="Post image"
         />
-        <CardContent />
+        <CardContent className={classes.tagsArea}>
+          {tags}
+        </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
           <IconButton aria-label="Add to favorites">
             <FavoriteIcon />
@@ -111,7 +117,7 @@ class PostCard extends React.Component {
           <IconButton aria-label="Share">
             <ShareIcon />
           </IconButton>
-          <Button onClick={() => this.props.goTo(this.props.post.id)} className={classes.expand} color="inherit">View</Button>
+          <Button onClick={() => this.props.goTo(this.props.post.id)} className={classes.expand} color="primary">View</Button>
         </CardActions>
         {renderMenu}
       </Card>

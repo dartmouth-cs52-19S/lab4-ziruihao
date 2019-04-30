@@ -18,6 +18,17 @@ class NewPost extends React.Component {
     };
   }
 
+  postChecker = () => {
+    const inputModified = Object.assign({}, this.state.input);
+    if (this.state.input.title === '') {
+      inputModified.title = 'Untitled post';
+    }
+    if (this.state.input.tags === '') {
+      inputModified.tags = '#post';
+    }
+    this.props.makePost(inputModified, this.props.history);
+  }
+
   /**
    * Updates the state with whatever the user typed into the input fields.
    */
@@ -57,7 +68,7 @@ class NewPost extends React.Component {
         <input onChange={this.onInputChange} placeholder="Post content" type="text" value={this.state.input.content} />
         <input onChange={this.onInputChange} placeholder="Tags" type="text" value={this.state.input.tags} />
         <input onChange={this.onInputChange} placeholder="Cover URL" type="text" value={this.state.input.cover_url} />
-        <button type="button" onClick={() => this.props.makePost(this.state.input, this.props.history)}>Make Post</button>
+        <button type="button" onClick={this.postChecker}>Make Post</button>
       </div>
     );
   }

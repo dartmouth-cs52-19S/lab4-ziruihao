@@ -3,14 +3,13 @@ $background-color: #f2f2f2;
 * {
   border-width: 1px;
   // border-style: solid;
-  // box-sizing: border-box;
+  box-sizing: border-box;
 }
 body {
   margin: 0;
   font-family: "Roboto", sans-serif;
   background: $background-color;
   width: 100vw;
-  height: 100%;
 }
 #view {
   display: flex;
@@ -30,14 +29,21 @@ body {
   display: flex;
   #bio {
     flex-grow: 0;
-    display: flex;
     justify-content: center;
-    padding: 0 120px 0 0;
+    padding: 0 60px 0 0;
   }
   #posts {
     flex-grow: 3;
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  #blogStuff {
+    padding: 0 32px 0 32px;
+    #submitArea {
+      padding-top: 32px;
+      display: flex;
+      justify-content: center;
+    }
   }
 }

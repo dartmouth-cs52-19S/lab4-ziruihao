@@ -15,10 +15,12 @@ import Typography from '@material-ui/core/Typography';
 const styles = {
   card: {
     maxWidth: 200,
-    maxHeight: 529,
   },
   media: {
     height: 140,
+  },
+  actions: {
+    justifyContent: 'center',
   },
 };
 
@@ -34,20 +36,16 @@ function BioCard(props) {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Lizard
+            Zirui Hao
           </Typography>
           <Typography component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
+            I am a computer science and philosophy major at Dartmouth College. This is my blog.
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
+      <CardActions className={classes.actions}>
+        <Button size="small" color="secondary">
+          Follow
         </Button>
       </CardActions>
     </Card>

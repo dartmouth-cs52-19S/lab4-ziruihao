@@ -2,19 +2,308 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+// mateiral-ui imports
+import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardActions from '@material-ui/core/CardActions';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import red from '@material-ui/core/colors/red';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShareIcon from '@material-ui/icons/Share';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import TextField from '@material-ui/core/TextField';
+import Chip from '@material-ui/core/Chip';
+import CardContent from '@material-ui/core/CardContent';
+
+import classnames from 'classnames';
+
 // imports ActionCreators
-import { removePost } from '../actions';
+
+import { updatePost } from '../actions';
+
+const styles = ({
+  root: {
+    width: 800,
+    paddingBottom: 30,
+  },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
+  padded: {
+    padding: '16px 0 0 0',
+  },
+  moreSpace: {
+    lineHeight: '200%',
+  },
+  avatar: {
+    backgroundColor: red[500],
+  },
+  textField: {
+    margin: '16px 0 0 0',
+  },
+  tagsArea: {
+    padding: '16px 0 0 0',
+  },
+  chip: {
+    margin: '0 2px 0 2px',
+  },
+  actions: {
+    display: 'flex',
+    padding: '16px 0 0 0',
+  },
+});
+
 
 class Post extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isEditing: false,
-    };
+    if (this.props.post === null) {
+      this.state = {
+        isEditing: false,
+        anchorEl: null,
+        input: {
+          title: '',
+          content: '',
+          tags: '',
+          cover_url: '',
+        },
+      };
+    } else {
+      this.state = {
+        isEditing: false,
+        anchorEl: null,
+        input: {
+          title: props.post.title,
+          content: props.post.content,
+          tags: props.post.tags,
+          cover_url: props.post.cover_url,
+        },
+      };
+    }
+  }
+
+  /**
+   * Vets a post input before sending it off to axios.
+   */
+  postChecker = () => {
+    const inputModified = Object.assign({}, this.state.input);
+    if (this.state.input.title === '') {
+      inputModified.title = 'Untitled post';
+    }
+    if (this.state.input.tags === '') {
+      inputModified.tags = '#post';
+    }
+    this.props.updatePost(inputModified, this.props.post._id);
+    this.toggleEdit();
+  }
+
+  /**
+   * Updates the state with whatever the user typed into the input fields.
+   */
+  onInputChange = (event) => {
+    const { value } = event.target;
+    const prevState = this.state;
+    switch (event.target.id) {
+      case 'title':
+        this.setState({
+          input: Object.assign({}, prevState.input, { title: value }),
+        });
+        break;
+      case 'content':
+        this.setState({
+          input: Object.assign({}, prevState.input, { content: value }),
+        });
+        break;
+      case 'tags':
+        this.setState({
+          input: Object.assign({}, prevState.input, { tags: value }),
+        });
+        break;
+      case 'cover-url':
+        this.setState({
+          input: Object.assign({}, prevState.input, { cover_url: value }),
+        });
+        break;
+      default:
+        break;
+    }
+  }
+
+  /**
+   * Opens the menu.
+   */
+  handleMenuOpen = (event) => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  /**
+   * Closes the menu.
+   */
+  handleMenuClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  /**
+   * Toggles edit mode.
+   */
+  toggleEdit = () => {
+    this.setState(prevState => ({
+      isEditing: !prevState.isEditing,
+    }));
   }
 
   renderIfEditing = () => {
-    return null;
+    const { classes } = this.props;
+
+    const isMenuOpen = Boolean(this.state.anchorEl);
+    const renderMenu = (
+      <Menu
+        anchorEl={this.state.anchorEl}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={isMenuOpen}
+        onClose={this.handleMenuClose}
+      >
+        <MenuItem onClick={this.toggleEdit}>Edit</MenuItem>
+        <MenuItem onClick={() => { this.props.removePost(this.props.post._id, this.props.history); this.handleMenuClose(); }}>Delete</MenuItem>
+      </Menu>
+    );
+
+    const tags = this.props.post.tags.split(' ').map(tag => <Chip key={tag} label={tag} className={classes.chip} />);
+
+    if (this.state.isEditing) {
+      return (
+        <div id="blog">
+          <Paper className={classes.root} elevation={1}>
+            <CardMedia
+              className={classes.media}
+              image={this.props.post.cover_url}
+              title="Post image"
+            />
+            <div id="blogStuff">
+              <CardHeader
+                avatar={(
+                  <Avatar className={classes.avatar}>
+                    ZH
+                  </Avatar>
+                )}
+                action={(
+                  <IconButton onClick={this.handleMenuOpen}>
+                    <MoreVertIcon />
+                  </IconButton>
+                )}
+                subheader="wrote on September 14, 2016"
+                className={classes.padded}
+              />
+              <TextField
+                id="title"
+                label="Title"
+                className={classnames(classes.textField)}
+                value={this.state.input.title}
+                onChange={this.onInputChange}
+                placeholder={this.state.input.title}
+                margin="none"
+                multiline
+                fullWidth
+              />
+              <TextField
+                id="content"
+                label="Content"
+                className={classnames(classes.textField)}
+                value={this.state.input.content}
+                onChange={this.onInputChange}
+                placeholder={this.state.input.content}
+                margin="none"
+                multiline
+                fullWidth
+              />
+              <TextField
+                id="tags"
+                label="Tags - format like '#tag1 #tag2'"
+                className={classnames(classes.textField)}
+                value={this.state.input.tags}
+                onChange={this.onInputChange}
+                placeholder={this.state.input.tags}
+                margin="none"
+                multiline
+                fullWidth
+              />
+              <TextField
+                id="cover-url"
+                label="Cover image url"
+                className={classnames(classes.textField)}
+                value={this.state.input.cover_url}
+                onChange={this.onInputChange}
+                placeholder={this.state.input.cover_url}
+                margin="none"
+                multiline
+                fullWidth
+              />
+              <div id="submitArea">
+                <Button onClick={this.postChecker} size="medium" variant="contained" color="primary">Save</Button>
+              </div>
+            </div>
+            {renderMenu}
+          </Paper>
+        </div>
+      );
+    } else {
+      return (
+        <div id="blog">
+          <Paper className={classes.root} elevation={1}>
+            <CardMedia
+              className={classes.media}
+              image={this.props.post.cover_url}
+              title="Post image"
+            />
+            <div id="blogStuff">
+              <CardHeader
+                avatar={(
+                  <Avatar className={classes.avatar}>
+                    ZH
+                  </Avatar>
+                )}
+                action={(
+                  <IconButton onClick={this.handleMenuOpen}>
+                    <MoreVertIcon />
+                  </IconButton>
+                )}
+                subheader="wrote on September 14, 2016"
+                className={classes.padded}
+              />
+              <Typography variant="h3" component="h3" className={classes.padded}>
+                {this.props.post.title}
+              </Typography>
+              <Typography component="p"
+                className={classnames(classes.padded, classes.moreSpace)}
+              >
+                {this.props.post.content}
+              </Typography>
+              <CardContent className={classes.tagsArea}>
+                {tags}
+              </CardContent>
+              <CardActions className={classes.actions} disableActionSpacing>
+                <IconButton aria-label="Add to favorites">
+                  <FavoriteIcon />
+                </IconButton>
+                <IconButton aria-label="Share">
+                  <ShareIcon />
+                </IconButton>
+              </CardActions>
+            </div>
+            {renderMenu}
+          </Paper>
+        </div>
+      );
+    }
   }
 
   render() {
@@ -22,14 +311,7 @@ class Post extends React.Component {
       // props.history.push('/error');
       return (<div>404: post not found</div>);
     } else {
-      console.log(this.props.post);
-      return (
-        <div>
-          {this.props.match.params.id}
-          {this.props.post.title}
-          <button type="button" onClick={() => this.props.removePost(this.props.post._id, this.props.history)}>Delete Post</button>
-        </div>
-      );
+      return this.renderIfEditing();
     }
   }
 }
@@ -40,4 +322,4 @@ const mapStateToProps = state => (
   }
 );
 
-export default withRouter(connect(mapStateToProps, { removePost })(Post));
+export default withRouter(connect(mapStateToProps, { updatePost })(withStyles(styles)(Post)));

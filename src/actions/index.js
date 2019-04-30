@@ -3,6 +3,7 @@ import axios from 'axios';
 export const ActionTypes = {
   CURRENTIZE_POST: 'CURRENTIZE_POST',
   MAKE_POST: 'MAKE_POST',
+  UPDATE_POST: 'UPDATE_POST',
   REMOVE_POST: 'REMOVE_POST',
   FETCH_POSTS: 'FETCH_POSTS',
 };
@@ -24,6 +25,7 @@ export function fetchPosts() {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/posts${API_KEY}`).then((response) => {
       dispatch({ type: ActionTypes.FETCH_POSTS, payload: response.data });
+      console.log(response.data);
     }).catch((error) => {
       console.log(error);
     });
@@ -55,6 +57,17 @@ export function makePost(post, history) {
       // currentizePost(response.data.id);
       // dispatch({ type: ActionTypes.MAKE_POST, payload: response.data });
       history.push('/');
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+}
+
+export function updatePost(postUpdate, id) {
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/posts/${id}${API_KEY}`, postUpdate).then((response) => {
+      console.log(response);
+      dispatch({ type: ActionTypes.UPDATE_POST, payload: response.data });
     }).catch((error) => {
       console.log(error);
     });
