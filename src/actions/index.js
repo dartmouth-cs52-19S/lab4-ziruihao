@@ -26,7 +26,7 @@ export function fetchPosts() {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/posts${API_KEY}`).then((response) => {
       dispatch({ type: ActionTypes.FETCH_POSTS, payload: response.data });
-      console.log(response.data);
+      console.log('Hi! I just fetched all the posts.');
     }).catch((error) => {
       console.log(error);
     });
@@ -82,7 +82,7 @@ export function removePost(id, history) {
   return (dispatch) => {
     axios.delete(`${ROOT_URL}/posts/${id}${API_KEY}`).then((response) => {
       console.log(response);
-      fetchPosts();
+      fetchPosts()(dispatch);
       dispatch({ type: ActionTypes.REMOVE_POST, payload: null });
       history.push('/');
     }).catch((error) => {

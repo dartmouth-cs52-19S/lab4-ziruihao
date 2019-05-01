@@ -100,7 +100,7 @@ class Posts extends React.Component {
           ]}
         />
         <div id="bio">
-          <BioCard user={this.props.user} />
+          <BioCard user={this.props.user} openSnack={this.openSnack} />
         </div>
         <div id="posts">
           {posts}

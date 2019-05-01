@@ -23,8 +23,8 @@ const App = (props) => {
           <NavBar name={props.user.displayName} />
           <Switch>
             <Route exact path="/" component={Posts} />
-            <Route path="/posts/new" component={NewPost} />
-            <Route exact path="/posts/:id" component={Post} />
+            <Route exact path="/posts/new" component={NewPost} />
+            <Route path="/posts/:id" component={Post} />
             <Route path="/error" component={ErrorPage} />
             <Route component={ErrorPage} />
           </Switch>

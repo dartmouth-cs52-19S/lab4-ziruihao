@@ -46,7 +46,7 @@ function BioCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions className={classes.actions}>
-        <Button size="small" color="secondary">
+        <Button onClick={props.openSnack} size="small" color="secondary">
             Follow
         </Button>
       </CardActions>

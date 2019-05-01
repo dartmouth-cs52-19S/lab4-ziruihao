@@ -21,11 +21,12 @@ import Menu from '@material-ui/core/Menu';
 import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
 import CardContent from '@material-ui/core/CardContent';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import classnames from 'classnames';
 
 // imports ActionCreators
-import { updatePost } from '../actions';
+import { updatePost, currentizePost } from '../actions';
 
 const styles = ({
   root: {
@@ -87,6 +88,10 @@ class Post extends React.Component {
         },
       };
     }
+  }
+
+  componentDidMount() {
+    this.props.currentizePost(this.props.match.params.id, this.props.history);
   }
 
   /**
@@ -267,7 +272,7 @@ class Post extends React.Component {
               <CardHeader
                 avatar={(
                   <Avatar className={classes.avatar}>
-                    ZH
+                    {this.props.user.initials}
                   </Avatar>
                 )}
                 action={(
@@ -307,8 +312,7 @@ class Post extends React.Component {
 
   render() {
     if (this.props.post === null) {
-      // props.history.push('/error');
-      return (<div>404: post not found</div>);
+      return (<div><CircularProgress />404: post not found</div>);
     } else {
       return this.renderIfEditing();
     }
@@ -322,4 +326,4 @@ const mapStateToProps = state => (
   }
 );
 
-export default withRouter(connect(mapStateToProps, { updatePost })(withStyles(styles)(Post)));
+export default withRouter(connect(mapStateToProps, { updatePost, currentizePost })(withStyles(styles)(Post)));
