@@ -3,19 +3,19 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 // material-ui imports
-
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
 // own imports
-import BioCard from './bio-card';
-import PostCard from '../components/post-card';
+import BioCard from '../components/bio-card';
+import PostCard from './post-card';
 
 // actions imports
-import { currentizePost, fetchPosts, makePost } from '../actions';
+import {
+  setFilter, currentizePost, fetchPosts, makePost,
+} from '../actions';
 
 const styles = theme => ({
   close: {
@@ -28,12 +28,12 @@ class Posts extends React.Component {
     super(props);
     this.state = {
       snackOpen: false,
-      foo: {}, // this will come into play once we are able to design our own backend with customized data
     };
   }
 
   componentDidMount() {
     this.props.fetchPosts();
+    this.props.setFilter('');
   }
 
 
@@ -44,15 +44,20 @@ class Posts extends React.Component {
   //   this.props.fetchPosts();
   // }
 
+  /**
+   * Opens the snackbar.
+   */
   openSnack = () => {
     this.setState({ snackOpen: true });
   };
 
+  /**
+   * Closes the snackbar.
+   */
   closeSnack = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-
     this.setState({ snackOpen: false });
   };
 
@@ -63,16 +68,20 @@ class Posts extends React.Component {
     this.props.currentizePost(id, this.props.history);
   }
 
-  /**
-   * Goes to the post maker page.
-   */
-  // makePost = () => {
-  //   this.props.history.push('/posts/new');
-  // }
+  renderPosts = () => {
+    let posts;
+    if (this.props.filter === '') {
+      posts = this.props.all.map(post => <PostCard goTo={this.goTo} openSnack={this.openSnack} key={post.id} post={post} user={this.props.user} />);
+    } else {
+      posts = this.props.all.filter((post) => { return post.tags.includes(this.props.filter); })
+        .map(post => <PostCard goTo={this.goTo} openSnack={this.openSnack} filter={this.setFilter} key={post.id} post={post} user={this.props.user} />);
+    }
+    return posts;
+  }
 
   render() {
     const { classes } = this.props;
-    const posts = this.props.all.map(post => <PostCard goTo={this.goTo} openSnack={this.openSnack} key={post.id} post={post} user={this.props.user} />);
+    const posts = this.renderPosts();
     return (
       <div id="blog">
         <Snackbar
@@ -114,7 +123,10 @@ const mapStateToProps = state => (
   {
     all: state.posts.all,
     user: state.users,
+    filter: state.render.filter,
   }
 );
 
-export default withRouter(connect(mapStateToProps, { currentizePost, fetchPosts, makePost })(withStyles(styles)(Posts)));
+export default withRouter(connect(mapStateToProps, {
+  setFilter, currentizePost, fetchPosts, makePost,
+})(withStyles(styles)(Posts)));

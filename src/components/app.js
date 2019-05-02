@@ -5,11 +5,10 @@ import {
 import { connect } from 'react-redux';
 
 import Auth from '../containers/auth';
-import NavBar from './NavBar';
+import NavBar from '../containers/nav-bar';
 import Posts from '../containers/posts';
 import Post from '../containers/post';
 import NewPost from '../containers/new-post';
-import ErrorPage from './error';
 
 const App = (props) => {
   if (!props.user.loggedIn) {
@@ -25,8 +24,7 @@ const App = (props) => {
             <Route exact path="/" component={Posts} />
             <Route exact path="/posts/new" component={NewPost} />
             <Route path="/posts/:id" component={Post} />
-            <Route path="/error" component={ErrorPage} />
-            <Route component={ErrorPage} />
+            <Route render={() => (<div>404: post not found </div>)} />
           </Switch>
         </div>
       </Router>

@@ -18,6 +18,7 @@ import './style.scss';
 
 // import App
 import App from './components/app';
+import ErrorChip from './containers/error';
 
 // creates the store
 const store = createStore(reducers, {}, compose(
@@ -39,6 +40,7 @@ ReactDOM.render(
   <Provider store={store}>
     <MuiThemeProvider theme={theme}>
       <App />
+      <ErrorChip />
     </MuiThemeProvider>
   </Provider>,
   document.getElementById('main'),

@@ -24,8 +24,9 @@ import CardContent from '@material-ui/core/CardContent';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import classnames from 'classnames';
+import marked from 'marked';
 
-// imports ActionCreators
+// actions imports
 import { updatePost, currentizePost } from '../actions';
 
 const styles = ({
@@ -288,9 +289,8 @@ class Post extends React.Component {
               </Typography>
               <Typography component="p"
                 className={classnames(classes.padded, classes.moreSpace)}
-              >
-                {this.props.post.content}
-              </Typography>
+                dangerouslySetInnerHTML={{ __html: marked(this.props.post.content || '') }}
+              />
               <CardContent className={classes.tagsArea}>
                 {tags}
               </CardContent>

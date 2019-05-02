@@ -21,7 +21,7 @@ import Menu from '@material-ui/core/Menu';
 import Chip from '@material-ui/core/Chip';
 
 // actions imports
-import { removePost } from '../actions';
+import { setFilter, removePost } from '../actions';
 
 const styles = theme => ({
   card: {
@@ -92,7 +92,7 @@ class PostCard extends React.Component {
       </Menu>
     );
 
-    const tags = this.props.post.tags.split(' ').map(tag => <Chip key={tag} label={tag} className={classes.chip} />);
+    const tags = this.props.post.tags.split(' ').map(tag => <Chip key={tag} label={tag} onClick={() => this.props.setFilter(tag)} className={classes.chip} />);
 
     return (
       <Card className={classes.card}>
@@ -122,7 +122,7 @@ class PostCard extends React.Component {
           <IconButton aria-label="Add to favorites" onClick={this.props.openSnack}>
             <FavoriteIcon />
           </IconButton>
-          <IconButton aria-label="Share">
+          <IconButton aria-label="Share" onClick={this.props.openSnack}>
             <ShareIcon />
           </IconButton>
           <Button onClick={() => this.props.goTo(this.props.post.id)} className={classes.expand} color="secondary">View</Button>
@@ -134,4 +134,4 @@ class PostCard extends React.Component {
   }
 }
 
-export default withRouter(connect(null, { removePost })(withStyles(styles)(PostCard)));
+export default withRouter(connect(null, { setFilter, removePost })(withStyles(styles)(PostCard)));

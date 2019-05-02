@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 // material-ui imports
@@ -12,6 +13,9 @@ import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
+
+// actions imports
+import { setFilter } from '../actions';
 
 const styles = theme => ({
   root: {
@@ -99,11 +103,13 @@ function NavBar(props) {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="To be implemented..."
+              placeholder="Filter with #tag"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
+              onChange={event => props.setFilter(event.target.value)}
+              value={props.filter}
             />
           </div>
           <div className={classes.growBig} />
@@ -117,4 +123,10 @@ function NavBar(props) {
   );
 }
 
-export default withRouter(withStyles(styles)(NavBar));
+const mapStateToProps = state => (
+  {
+    filter: state.render.filter,
+  }
+);
+
+export default withRouter(connect(mapStateToProps, { setFilter })(withStyles(styles)(NavBar)));

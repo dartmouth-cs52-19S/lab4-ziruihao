@@ -41,7 +41,7 @@ function BioCard(props) {
             {props.user.displayName}
           </Typography>
           <Typography component="p">
-              I am a computer science and philosophy major at Dartmouth College. This is my blog.
+              Hey there! Welcome to my blog. Click around the buttons - all of them are interactable! Click on tags to filter by them, or use the search bar.
           </Typography>
         </CardContent>
       </CardActionArea>
