@@ -33,7 +33,6 @@ class ErrorChip extends React.Component {
   };
 
   render() {
-    console.log(this.props.error);
     if (!(this.props.error === null)) {
       return (
         <div id="errorArea">
@@ -51,7 +50,7 @@ class ErrorChip extends React.Component {
             </DialogContent>
             <DialogActions>
               <Button onClick={this.closeDialog} color="primary" autoFocus>
-                OK
+                Oops
               </Button>
             </DialogActions>
           </Dialog>
