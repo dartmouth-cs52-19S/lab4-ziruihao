@@ -23,9 +23,14 @@ Or you can use the search bar up top (make sure to type tags in the format of '#
 ### Redux Error-handling
 I handled all errors coming from the connection to the Heroku server by making an `error-reducer.js` and creating error states. To try error handling, go to this link:
 
-![alt text](https://github.com/dartmouth-cs52-19S/lab4-ziruihao/blob/master/img/auth.png)
+![alt text](https://github.com/dartmouth-cs52-19S/lab4-ziruihao/blob/master/img/error.png)
 
 ### Input Validation
 If you try to make a blank post, my app will automatically fill 'Untitled post' as its default title, so that we can query them.
 
 ![alt text](https://github.com/dartmouth-cs52-19S/lab4-ziruihao/blob/master/img/untitled.png)
+
+### Markdown
+Support for markdown in post-writing.
+
+![alt text](https://github.com/dartmouth-cs52-19S/lab4-ziruihao/blob/master/img/markdown.png)
