@@ -12,7 +12,7 @@ export const ActionTypes = {
   DISMISS_ERROR: 'DISMISS_ERROR',
 };
 
-const ROOT_URL = 'https://cs52-blog.herokuapp.com/api';
+const ROOT_URL = 'https://cs52-lab5-ziruihao.herokuapp.com/api';
 const API_KEY = '?key=zirui_hao';
 
 /**
