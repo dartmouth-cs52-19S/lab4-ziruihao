@@ -13,7 +13,7 @@ export const ActionTypes = {
 };
 
 const ROOT_URL = 'https://cs52-lab5-ziruihao.herokuapp.com/api';
-const API_KEY = '?key=zirui_hao';
+const API_KEY = ''; // '?key=zirui_hao';
 
 /**
  * Relays error to store.

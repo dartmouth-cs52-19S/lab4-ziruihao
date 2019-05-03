@@ -62,7 +62,6 @@ const styles = ({
   },
 });
 
-
 class Post extends React.Component {
   constructor(props) {
     super(props);
