@@ -181,6 +181,7 @@ class Post extends React.Component {
       </Menu>
     );
 
+    console.log(this.props.post);
     const tags = this.props.post.tags.split(' ').map(tag => <Chip key={tag} label={tag} className={classes.chip} />);
 
     if (this.state.isEditing) {
