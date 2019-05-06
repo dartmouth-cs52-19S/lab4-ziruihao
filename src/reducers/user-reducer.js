@@ -2,10 +2,10 @@ import { ActionTypes } from '../actions';
 
 const initialState = {
   uid: null,
-  displayName: null,
-  initials: null,
-  photoURL: null,
-  loggedIn: false,
+  displayName: 'Zirui Hao',
+  initials: 'ZH',
+  photoURL: 'http://www.1zoom.me/big2/203/283931-alexfas01.jpg',
+  loggedIn: true,
 };
 
 const UserReducer = (state = initialState, action) => {

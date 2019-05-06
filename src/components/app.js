@@ -11,7 +11,7 @@ import Post from '../containers/post';
 import NewPost from '../containers/new-post';
 
 const App = (props) => {
-  if (!props.user.loggedIn) {
+  if (!props.user.loggedIn) { // deprecated
     return (
       <Auth />
     );

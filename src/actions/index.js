@@ -13,7 +13,6 @@ export const ActionTypes = {
 };
 
 const ROOT_URL = 'https://cs52-lab5-ziruihao.herokuapp.com/api';
-const API_KEY = '?key=zirui_hao';
 
 /**
  * Relays error to store.
@@ -39,7 +38,7 @@ export function dismissError() {
  */
 export function fetchPosts() {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/posts${API_KEY}`).then((response) => {
+    axios.get(`${ROOT_URL}/posts`).then((response) => {
       dispatch({ type: ActionTypes.FETCH_POSTS, payload: response.data });
     }).catch((error) => {
       dispatch(relayError(error.message));
@@ -53,7 +52,7 @@ export function fetchPosts() {
  */
 export function currentizePost(id, history) {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/posts/${id}${API_KEY}`).then((response) => {
+    axios.get(`${ROOT_URL}/posts/${id}`).then((response) => {
       dispatch({ type: ActionTypes.CURRENTIZE_POST, payload: response.data });
       history.push(`/posts/${id}`);
     }).catch((error) => {
@@ -67,7 +66,7 @@ export function currentizePost(id, history) {
  */
 export function makePost(post, history) {
   return (dispatch) => {
-    axios.post(`${ROOT_URL}/posts${API_KEY}`, post).then(() => {
+    axios.post(`${ROOT_URL}/posts`, post).then(() => {
       fetchPosts()(dispatch);
       history.push('/');
     }).catch((error) => {
@@ -81,7 +80,7 @@ export function makePost(post, history) {
  */
 export function updatePost(postUpdate, id) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/posts/${id}${API_KEY}`, postUpdate).then((response) => {
+    axios.put(`${ROOT_URL}/posts/${id}`, postUpdate).then((response) => {
       dispatch({ type: ActionTypes.UPDATE_POST, payload: response.data });
     }).catch((error) => {
       dispatch(relayError(error.message));
@@ -94,7 +93,7 @@ export function updatePost(postUpdate, id) {
  */
 export function removePost(id, history) {
   return (dispatch) => {
-    axios.delete(`${ROOT_URL}/posts/${id}${API_KEY}`).then((response) => {
+    axios.delete(`${ROOT_URL}/posts/${id}`).then((response) => {
       console.log(response);
       fetchPosts()(dispatch);
       dispatch({ type: ActionTypes.REMOVE_POST, payload: null });
