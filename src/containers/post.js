@@ -73,7 +73,7 @@ class Post extends React.Component {
         input: {
           title: '',
           content: '',
-          tags: '',
+          tags: [],
           cover_url: '',
         },
       };
@@ -81,6 +81,7 @@ class Post extends React.Component {
       this.state = {
         isEditing: false,
         anchorEl: null,
+        tagsString: props.post.tags.join(' '),
         input: {
           title: props.post.title,
           content: props.post.content,
@@ -130,7 +131,8 @@ class Post extends React.Component {
         break;
       case 'tags':
         this.setState({
-          input: Object.assign({}, prevState.input, { tags: value }),
+          input: Object.assign({}, prevState.input, { tags: value.split(' ') }),
+          tagsString: value,
         });
         break;
       case 'cover-url':

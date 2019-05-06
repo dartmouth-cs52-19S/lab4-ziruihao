@@ -95,7 +95,7 @@ class NewPost extends React.Component {
         break;
       case 'tags':
         this.setState({
-          input: Object.assign({}, prevState.input, { tags: value.split() }),
+          input: Object.assign({}, prevState.input, { tags: value.split(' ') }),
           tagsString: value,
         });
         break;
