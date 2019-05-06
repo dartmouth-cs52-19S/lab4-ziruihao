@@ -69,6 +69,7 @@ class Post extends React.Component {
       this.state = {
         isEditing: false,
         anchorEl: null,
+        tagsString: '',
         input: {
           title: '',
           content: '',
@@ -97,13 +98,13 @@ class Post extends React.Component {
   /**
    * Vets a post input before sending it off to axios.
    */
-  postChecker = () => {
+  postValidator = () => {
     const inputModified = Object.assign({}, this.state.input);
     if (this.state.input.title === '') {
       inputModified.title = 'Untitled post';
     }
-    if (this.state.input.tags === '') {
-      inputModified.tags = '#post';
+    if (this.state.input.tags.length === 0) {
+      inputModified.tags = ['#notags'];
     }
     this.props.updatePost(inputModified, this.props.post._id);
     this.toggleEdit();
@@ -124,6 +125,7 @@ class Post extends React.Component {
       case 'content':
         this.setState({
           input: Object.assign({}, prevState.input, { content: value }),
+          tagsString: value,
         });
         break;
       case 'tags':
@@ -181,8 +183,7 @@ class Post extends React.Component {
       </Menu>
     );
 
-    console.log(this.props.post);
-    const tags = this.props.post.tags.split(' ').map(tag => <Chip key={tag} label={tag} className={classes.chip} />);
+    const tags = this.props.post.tags.map(tag => <Chip key={tag} label={tag} className={classes.chip} />);
 
     if (this.state.isEditing) {
       return (
@@ -234,9 +235,9 @@ class Post extends React.Component {
                 id="tags"
                 label="Tags - format like '#tag1 #tag2'"
                 className={classnames(classes.textField)}
-                value={this.state.input.tags}
+                value={this.state.tagsString}
                 onChange={this.onInputChange}
-                placeholder={this.state.input.tags}
+                placeholder={this.state.tagsString}
                 margin="none"
                 multiline
                 fullWidth
@@ -253,7 +254,7 @@ class Post extends React.Component {
                 fullWidth
               />
               <div id="submitArea">
-                <Button onClick={this.postChecker} size="medium" variant="contained" color="primary">Save</Button>
+                <Button onClick={this.postValidator} size="medium" variant="contained" color="primary">Save</Button>
               </div>
             </div>
             {renderMenu}

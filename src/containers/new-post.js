@@ -52,10 +52,11 @@ class NewPost extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tagsString: '',
       input: {
         title: '',
         content: '',
-        tags: '',
+        tags: [],
         cover_url: '',
       },
     };
@@ -64,13 +65,13 @@ class NewPost extends React.Component {
   /**
    * Vets a post input before sending it off to axios.
    */
-  postChecker = () => {
+  postValidator = () => {
     const inputModified = Object.assign({}, this.state.input);
     if (this.state.input.title === '') {
       inputModified.title = 'Untitled post';
     }
-    if (this.state.input.tags === '') {
-      inputModified.tags = '#post';
+    if (this.state.input.tags.length === 0) {
+      inputModified.tags = ['#notags'];
     }
     this.props.makePost(inputModified, this.props.history);
   }
@@ -94,7 +95,8 @@ class NewPost extends React.Component {
         break;
       case 'tags':
         this.setState({
-          input: Object.assign({}, prevState.input, { tags: value }),
+          input: Object.assign({}, prevState.input, { tags: value.split() }),
+          tagsString: value,
         });
         break;
       case 'cover-url':
@@ -143,9 +145,9 @@ class NewPost extends React.Component {
               id="tags"
               label="Tags - format like '#tag1 #tag2'"
               className={classnames(classes.padded)}
-              value={this.state.input.tags}
+              value={this.state.tagsString}
               onChange={this.onInputChange}
-              placeholder={this.state.input.tags}
+              placeholder={this.state.tagsString}
               margin="none"
               multiline
               fullWidth
@@ -162,7 +164,7 @@ class NewPost extends React.Component {
               fullWidth
             />
             <div id="submitArea">
-              <Button onClick={this.postChecker} size="medium" variant="contained" color="primary" className={classes.button}>Save</Button>
+              <Button onClick={this.postValidator} size="medium" variant="contained" color="primary" className={classes.button}>Save</Button>
               <Button onClick={() => this.props.history.push('/')} size="medium" variant="contained" color="default" className={classes.button}>Cancel</Button>
             </div>
           </div>

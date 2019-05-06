@@ -92,7 +92,7 @@ class PostCard extends React.Component {
       </Menu>
     );
 
-    const tags = this.props.post.tags.split(' ').map(tag => <Chip key={tag} label={tag} onClick={() => this.props.setFilter(tag)} className={classes.chip} />);
+    const tags = this.props.post.tags.map(tag => <Chip key={tag} label={tag} onClick={() => this.props.setFilter(tag)} className={classes.chip} />);
 
     return (
       <Card className={classes.card}>
