@@ -126,7 +126,6 @@ class Post extends React.Component {
       case 'content':
         this.setState({
           input: Object.assign({}, prevState.input, { content: value }),
-          tagsString: value,
         });
         break;
       case 'tags':
