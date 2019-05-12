@@ -1,15 +1,11 @@
 import React from 'react';
-
-import { connect } from 'react-redux';
+import withRouter from 'react-router';
 
 // material-ui imports
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-
-// actions imports
-import { updateUserInfo } from '../actions';
 
 // firebase imports
 import * as db from '../services/datastore';
@@ -28,29 +24,17 @@ const styles = {
   },
 };
 
-class Auth extends React.Component {
-  /**
-   * Activates login step in firebase.
-   */
-  login = () => {
-    db.auth(this.updateUserInfo);
+class Splash extends React.Component {
+  signup = () => {
+    this.props.history.push('/signup');
   }
 
-  /**
-   * Updates newly logged-in user.
-   */
-  updateUserInfo = (uid, displayName, photoURL) => {
-    let initials = '';
-    displayName.split(' ').forEach((string) => {
-      initials += string.charAt(0);
-    });
-    this.props.updateUserInfo({
-      uid,
-      displayName,
-      initials,
-      photoURL,
-      loggedIn: true,
-    });
+  signin = () => {
+    this.props.history.push('/signin');
+  }
+
+  googleAuth = () => {
+    // db.auth();
   }
 
   render() {
@@ -64,8 +48,12 @@ class Auth extends React.Component {
           <Typography variant="subtitle1" align="center" className={classes.text}>
                   Why login? This feature will be fully fleshed out in Lab 5 when I can incorporate users schemas into the database. But for now, try it!
           </Typography>
-          <div id="loginArea">
-            <Button onClick={this.login} variant="contained" color="primary">Login</Button>
+          <div id="authActionArea">
+            <div id="traditionalAuth">
+              <Button onClick={this.signin} color="primary">Sign In</Button>
+              <Button onClick={this.signup} variant="contained" color="primary">Sign Up</Button>
+            </div>
+            <Button onClick={this.googleAuth} variant="contained" color="primary">Sign In with Google</Button>
           </div>
         </Paper>
       </div>
@@ -73,4 +61,4 @@ class Auth extends React.Component {
   }
 }
 
-export default connect(null, { updateUserInfo })(withStyles(styles)(Auth));
+export default withRouter(withStyles(styles)(Splash));

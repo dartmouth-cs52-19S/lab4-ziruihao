@@ -7,7 +7,7 @@ import ErrorReducer from './error-reducer';
 
 const rootReducer = combineReducers({
   posts: PostReducer,
-  users: UserReducer,
+  auth: UserReducer,
   render: RenderReducer,
   errors: ErrorReducer,
 });

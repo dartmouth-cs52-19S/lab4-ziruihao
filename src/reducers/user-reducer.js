@@ -1,17 +1,29 @@
 import { ActionTypes } from '../actions';
 
 const initialState = {
-  uid: null,
-  displayName: 'Zirui Hao',
-  initials: 'ZH',
-  photoURL: 'http://www.1zoom.me/big2/203/283931-alexfas01.jpg',
-  loggedIn: true,
+  user: {
+    email: null,
+    name: {
+      first: null,
+      last: null,
+    },
+    initials: null,
+    imageURL: null,
+  },
+  authenticated: false,
 };
 
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ActionTypes.UPDATE_USER_INFO:
-      return (Object.assign({}, state, action.payload));
+    case ActionTypes.AUTH_USER:
+      return {
+        user: action.payload.user,
+        authenticated: true,
+      };
+    case ActionTypes.DEAUTH_USER:
+      return state;
+    case ActionTypes.AUTH_ERROR:
+      return state;
     default:
       return state;
   }

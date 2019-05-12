@@ -13,6 +13,9 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
 
+// actions
+import { ActionTypes } from './actions';
+
 // style imports
 import './style.scss';
 
@@ -35,6 +38,11 @@ const theme = createMuiTheme({
     secondary: deepPurple,
   },
 });
+
+const token = localStorage.getItem('token');
+if (token) {
+  store.dispatch({ type: ActionTypes.AUTH_USER, payload: localStorage.getItem('user') });
+}
 
 ReactDOM.render(
   <Provider store={store}>
