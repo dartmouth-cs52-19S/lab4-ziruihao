@@ -7,9 +7,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 
-// firebase imports
-import * as db from '../services/datastore';
-
 const styles = {
   paper: {
     width: 400,

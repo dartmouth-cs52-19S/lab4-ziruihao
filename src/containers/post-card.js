@@ -108,7 +108,7 @@ class PostCard extends React.Component {
             </IconButton>
           )}
           title={this.props.post.title}
-          subheader="September 14, 2016"
+          subheader={`${this.props.post.author.name.first} wrote on September 14, 2016`}
         />
         <CardMedia
           className={classes.media}

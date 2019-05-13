@@ -134,6 +134,7 @@ class Signup extends React.Component {
           <TextField
             id="pass"
             label="Password"
+            type="password"
             className={(classes.padded)}
             value={this.state.user.password}
             onChange={this.onInputChange}

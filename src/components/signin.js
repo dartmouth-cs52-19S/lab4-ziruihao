@@ -44,6 +44,7 @@ class Signin extends React.Component {
    * Activates login step in firebase.
    */
   signin = () => {
+    console.log(this.state.user);
     this.props.signinUser(this.state.user, this.props.history);
   }
 
@@ -90,6 +91,7 @@ class Signin extends React.Component {
           <TextField
             id="pass"
             label="Password"
+            type="password"
             className={(classes.padded)}
             value={this.state.user.password}
             onChange={this.onInputChange}

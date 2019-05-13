@@ -10,6 +10,7 @@ import { amber, deepPurple } from '@material-ui/core/colors/';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import axios from 'axios';
 import reducers from './reducers';
 
 // actions
@@ -37,10 +38,12 @@ const theme = createMuiTheme({
     secondary: deepPurple,
   },
 });
-localStorage.clear();
 const token = localStorage.getItem('token');
-if (token) {
-  store.dispatch({ type: ActionTypes.AUTH_USER, payload: localStorage.getItem('user') });
+const user = JSON.parse(localStorage.getItem('user'));
+if (token && user !== null) {
+  console.log(token);
+  store.dispatch({ type: ActionTypes.AUTH_USER, payload: user });
+  axios.defaults.headers.common = { Authorization: localStorage.getItem('token') };
 }
 
 ReactDOM.render(

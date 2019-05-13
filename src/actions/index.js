@@ -48,19 +48,26 @@ export function authError() {
 }
 
 /**
- * Signs the in.
+ * Configures all headers to have token.
+ * @param {String} token
  */
-export function signinUser({ email, password }, history) {
+export function configToken(token) {
+  axios.defaults.headers.common = { Authorization: token };
+}
+
+/**
+ * Signs the user in.
+ */
+export function signinUser(user, history) {
   return (dispatch) => {
-    axios.post(`${ROOT_URL}/signin`, { email, password }).then((response) => {
-      console.log(response);
+    axios.post(`${ROOT_URL}/signin`, user).then((response) => {
       dispatch({ type: ActionTypes.AUTH_USER, payload: response.data.user });
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', response.data.user);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
       axios.defaults.headers.common = { Authorization: localStorage.getItem('token') };
       history.push('/');
     }).catch((error) => {
-      dispatch(relayError(`Sign In Failed: ${error.response.data}`));
+      dispatch(relayError(`Sign In Failed: ${error.message}`));
       // dispatch(authError(`Sign In Failed: ${error.response.data}`));
     });
   };
@@ -74,11 +81,11 @@ export function signupUser(user, history) {
     axios.post(`${ROOT_URL}/signup`, user).then((response) => {
       dispatch({ type: ActionTypes.AUTH_USER, payload: response.data.user });
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', response.data.user);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
       axios.defaults.headers.common = { Authorization: localStorage.getItem('token') };
       history.push('/');
     }).catch((error) => {
-      dispatch(relayError(`Sign Up Failed: ${error.response.data}`));
+      dispatch(relayError(`Sign Up Failed: ${error.message}`));
       // dispatch(authError(`Sign Up Failed: ${error.response.data}`));
     });
   };
@@ -117,7 +124,6 @@ export function currentizePost(id, history) {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/posts/${id}`).then((response) => {
       dispatch({ type: ActionTypes.CURRENTIZE_POST, payload: response.data });
-      console.log(response.data);
       history.push(`/posts/${id}`);
     }).catch((error) => {
       dispatch(relayError(error.message));
@@ -157,8 +163,7 @@ export function updatePost(postUpdate, id) {
  */
 export function removePost(id, history) {
   return (dispatch) => {
-    axios.delete(`${ROOT_URL}/posts/${id}`).then((response) => {
-      console.log(response);
+    axios.delete(`${ROOT_URL}/posts/${id}`).then(() => {
       fetchPosts()(dispatch);
       dispatch({ type: ActionTypes.REMOVE_POST, payload: null });
       history.push('/');

@@ -27,7 +27,7 @@ import classnames from 'classnames';
 import marked from 'marked';
 
 // actions imports
-import { updatePost, currentizePost } from '../actions';
+import { updatePost, currentizePost, removePost } from '../actions';
 
 const styles = ({
   root: {
@@ -207,7 +207,7 @@ class Post extends React.Component {
                     <MoreVertIcon />
                   </IconButton>
                 )}
-                subheader="wrote on September 14, 2016"
+                subheader={`${this.props.post.author.name.first} wrote on September 14, 2016`}
                 className={classes.padded}
               />
               <TextField
@@ -283,7 +283,7 @@ class Post extends React.Component {
                     <MoreVertIcon />
                   </IconButton>
                 )}
-                subheader="wrote on September 14, 2016"
+                subheader={`${this.props.post.author.name.first} wrote on September 14, 2016`}
                 className={classes.padded}
               />
               <Typography variant="h3" component="h3" className={classes.padded}>
@@ -328,4 +328,4 @@ const mapStateToProps = state => (
   }
 );
 
-export default withRouter(connect(mapStateToProps, { updatePost, currentizePost })(withStyles(styles)(Post)));
+export default withRouter(connect(mapStateToProps, { updatePost, currentizePost, removePost })(withStyles(styles)(Post)));
