@@ -42,7 +42,7 @@ class ErrorChip extends React.Component {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">An rrror has occured</DialogTitle>
+            <DialogTitle id="alert-dialog-title">An error has occured</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
                 {this.props.error}

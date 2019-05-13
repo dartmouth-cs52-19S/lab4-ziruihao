@@ -1,5 +1,5 @@
 import React from 'react';
-import withRouter from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // material-ui imports
@@ -14,7 +14,7 @@ import { signupUser } from '../actions';
 
 const styles = {
   paper: {
-    maxWidth: 600,
+    width: 400,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -35,26 +35,25 @@ class Signup extends React.Component {
     this.state = {
       user: {
         name: {
-          first: null,
-          last: null,
+          first: '',
+          last: '',
         },
-        initials: null,
-        email: null,
-        password: null,
-        imageURL: null,
+        initials: '',
+        email: '',
+        password: '',
+        imageURL: '',
       },
     };
   }
 
-  /**
-   * Activates login step in firebase.
-   */
   signup = () => {
     // creates the initials
-    this.setState(prevState => ({
-      user: Object.assign({}, prevState.user, { initials: (prevState.user.name.first.charAt(0) + prevState.user.name.last.charAt(0)) }),
-    }));
-    this.props.signupUser(this.state.user, this.props.history);
+    const initials = this.state.user.name.first.charAt(0).toUpperCase() + this.state.user.name.last.charAt(0).toUpperCase();
+    this.setState((prevState) => {
+      return {
+        user: Object.assign({}, prevState.user, { initials }),
+      };
+    }, () => this.props.signupUser(this.state.user, this.props.history));
   }
 
   /**
@@ -66,12 +65,12 @@ class Signup extends React.Component {
     switch (event.target.id) {
       case 'first-name':
         this.setState({
-          user: Object.assign({}, prevState.user, (Object.assign({}, prevState.user.name, { first: value }))),
+          user: Object.assign({}, prevState.user, { name: (Object.assign({}, prevState.user.name, { first: value })) }),
         });
         break;
       case 'last-name':
         this.setState({
-          user: Object.assign({}, prevState.user, (Object.assign({}, prevState.user.name, { last: value }))),
+          user: Object.assign({}, prevState.user, { name: (Object.assign({}, prevState.user.name, { last: value })) }),
         });
         break;
       case 'email':
@@ -86,7 +85,7 @@ class Signup extends React.Component {
         break;
       case 'image':
         this.setState({
-          imageURL: Object.assign({}, prevState.user, { imageURL: value }),
+          user: Object.assign({}, prevState.user, { imageURL: value }),
         });
         break;
       default:
@@ -99,7 +98,7 @@ class Signup extends React.Component {
     return (
       <div id="welcome">
         <Paper elevation={1} id="welcomeCard" className={classes.paper}>
-          <Typography variant="h2" className={classes.text}>
+          <Typography variant="h3" className={classes.text}>
             Sign Up
           </Typography>
           <TextField

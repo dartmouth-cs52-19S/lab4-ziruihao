@@ -122,7 +122,7 @@ class Posts extends React.Component {
 const mapStateToProps = state => (
   {
     all: state.posts.all,
-    user: state.users,
+    user: state.auth.user,
     filter: state.render.filter,
   }
 );

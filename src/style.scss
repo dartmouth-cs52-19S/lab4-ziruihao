@@ -53,11 +53,11 @@ body {
   align-items: center;
   height: 80vh;
   #welcomeCard {
-      #traditionalAuth {
+      #authActionArea {
           margin-top: 20px;
           margin-bottom: 50px;
           display: flex;
-          justify-content: center;
+          justify-content: space-around;
           align-items: center;
           width: 100%;
       }

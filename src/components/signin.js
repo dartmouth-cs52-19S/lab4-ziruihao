@@ -1,5 +1,5 @@
 import React from 'react';
-import withRouter from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // material-ui imports
@@ -14,7 +14,7 @@ import { signinUser } from '../actions';
 
 const styles = {
   paper: {
-    maxWidth: 600,
+    width: 400,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -29,19 +29,13 @@ const styles = {
   },
 };
 
-class Signup extends React.Component {
+class Signin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: {
-        name: {
-          first: null,
-          last: null,
-        },
-        initials: null,
-        email: null,
-        password: null,
-        imageURL: null,
+        email: '',
+        password: '',
       },
     };
   }
@@ -50,10 +44,6 @@ class Signup extends React.Component {
    * Activates login step in firebase.
    */
   signin = () => {
-    // creates the initials
-    this.setState(prevState => ({
-      user: Object.assign({}, prevState.user, { initials: (prevState.user.name.first.charAt(0) + prevState.user.name.last.charAt(0)) }),
-    }));
     this.props.signinUser(this.state.user, this.props.history);
   }
 
@@ -84,7 +74,7 @@ class Signup extends React.Component {
     return (
       <div id="welcome">
         <Paper elevation={1} id="welcomeCard" className={classes.paper}>
-          <Typography variant="h2" className={classes.text}>
+          <Typography variant="h3" className={classes.text}>
             Sign In
           </Typography>
           <TextField
@@ -107,11 +97,11 @@ class Signup extends React.Component {
             margin="none"
             fullWidth
           />
-          <Button onClick={this.signup} variant="contained" color="primary">Sign In</Button>
+          <Button onClick={this.signin} variant="contained" color="primary">Sign In</Button>
         </Paper>
       </div>
     );
   }
 }
 
-export default withRouter(connect(null, { signinUser })(withStyles(styles)(Signup)));
+export default withRouter(connect(null, { signinUser })(withStyles(styles)(Signin)));

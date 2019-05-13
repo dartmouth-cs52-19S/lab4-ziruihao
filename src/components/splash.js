@@ -1,5 +1,5 @@
 import React from 'react';
-import withRouter from 'react-router';
+import { withRouter } from 'react-router-dom';
 
 // material-ui imports
 import { withStyles } from '@material-ui/core/styles';
@@ -12,7 +12,7 @@ import * as db from '../services/datastore';
 
 const styles = {
   paper: {
-    maxWidth: 400,
+    width: 400,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -46,14 +46,11 @@ class Splash extends React.Component {
                   Blogger
           </Typography>
           <Typography variant="subtitle1" align="center" className={classes.text}>
-                  Why login? This feature will be fully fleshed out in Lab 5 when I can incorporate users schemas into the database. But for now, try it!
+                  Welcome to Blogger!
           </Typography>
           <div id="authActionArea">
-            <div id="traditionalAuth">
-              <Button onClick={this.signin} color="primary">Sign In</Button>
-              <Button onClick={this.signup} variant="contained" color="primary">Sign Up</Button>
-            </div>
-            <Button onClick={this.googleAuth} variant="contained" color="primary">Sign In with Google</Button>
+            <Button onClick={this.signin} color="primary">Sign In</Button>
+            <Button onClick={this.signup} variant="contained" color="primary">Sign Up</Button>
           </div>
         </Paper>
       </div>

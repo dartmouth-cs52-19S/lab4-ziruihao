@@ -2,7 +2,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-
 // material-ui imports
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
 import { amber, deepPurple } from '@material-ui/core/colors/';
@@ -38,7 +37,7 @@ const theme = createMuiTheme({
     secondary: deepPurple,
   },
 });
-
+localStorage.clear();
 const token = localStorage.getItem('token');
 if (token) {
   store.dispatch({ type: ActionTypes.AUTH_USER, payload: localStorage.getItem('user') });

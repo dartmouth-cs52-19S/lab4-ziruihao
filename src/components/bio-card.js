@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 // material-ui imports
@@ -10,6 +11,9 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+
+// actions imports
+import { signoutUser } from '../actions';
 
 const styles = {
   card: {
@@ -26,32 +30,49 @@ const styles = {
   },
 };
 
-function BioCard(props) {
-  const { classes } = props;
-  return (
-    <Card className={classes.card}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={props.user.photoURL}
-          title="User photo"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {props.user.displayName}
-          </Typography>
-          <Typography component="p">
-              Hey there! Welcome to my blog. Click around the buttons - all of them are interactable! Click on tags to filter by them, or use the search bar.
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions className={classes.actions}>
-        <Button onClick={props.openSnack} size="small" color="secondary">
-            Follow
-        </Button>
-      </CardActions>
-    </Card>
-  );
-}
+class BioCard extends React.Component {
+  renderWhetherAuth = () => {
+    if (this.props.authenticated) {
+      return (
+        <Button onClick={() => this.props.signoutUser(this.props.history)} size="small" color="secondary">Leave</Button>
+      );
+    } else {
+      return (
+        <Button onClick={() => this.props.history.push('/join')} size="small" color="secondary">Join</Button>
+      );
+    }
+  }
 
-export default withRouter(withStyles(styles)(BioCard));
+  render() {
+    const { classes } = this.props;
+    return (
+      <Card className={classes.card}>
+        <CardActionArea>
+          <CardMedia
+            className={classes.media}
+            image={this.props.user.imageURL}
+            title="User photo"
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {!this.props.authenticated ? 'Blogger' : `${this.props.user.name.first} ${this.props.user.name.last}`}
+            </Typography>
+            <Typography component="p">
+              Click on tags to filter by them, or use the search bar.
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions className={classes.actions}>
+          {this.renderWhetherAuth()}
+        </CardActions>
+      </Card>
+    );
+  }
+}
+const mapStateToProps = state => (
+  {
+    authenticated: state.auth.authenticated,
+  }
+);
+
+export default withRouter(connect(mapStateToProps, { signoutUser })(withStyles(styles)(BioCard)));

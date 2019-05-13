@@ -275,7 +275,7 @@ class Post extends React.Component {
               <CardHeader
                 avatar={(
                   <Avatar className={classes.avatar}>
-                    {this.props.user.initials}
+                    {this.props.post.author.initials}
                   </Avatar>
                 )}
                 action={(
@@ -324,7 +324,7 @@ class Post extends React.Component {
 const mapStateToProps = state => (
   {
     post: state.posts.current,
-    user: state.users,
+    user: state.auth.user,
   }
 );
 

@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
@@ -15,7 +14,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 
 // actions imports
-import { setFilter } from '../actions';
+import { setFilter, signoutUser } from '../actions';
 
 const styles = theme => ({
   root: {
@@ -88,45 +87,55 @@ const styles = theme => ({
   },
 });
 
-function NavBar(props) {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
-      <AppBar position="static" className={classes.bar}>
-        <Toolbar className={classes.toolbar}>
-          <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-            {props.name}
-          </Typography>
-          <div className={classes.growSmall} />
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+class NavBar extends React.Component {
+  renderIfAuth = () => {
+    const { classes } = this.props;
+    if (this.props.authenticated) {
+      return (<Button className={classes.title} onClick={() => this.props.signoutUser(this.props.history)} color="inherit">Leave</Button>);
+    } else {
+      return (<Button className={classes.title} onClick={() => this.props.history.push('/join')} color="inherit">Join</Button>);
+    }
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <div className={classes.root}>
+        <AppBar position="static" className={classes.bar}>
+          <Toolbar className={classes.toolbar}>
+            {this.renderIfAuth()}
+            <div className={classes.growSmall} />
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Filter with #tag"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                onChange={event => this.props.setFilter(event.target.value)}
+                value={this.props.filter}
+              />
             </div>
-            <InputBase
-              placeholder="Filter with #tag"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              onChange={event => props.setFilter(event.target.value)}
-              value={props.filter}
-            />
-          </div>
-          <div className={classes.growBig} />
-          <Button onClick={() => props.history.push('/')} color="inherit">Posts</Button>
-          <IconButton onClick={() => props.history.push('/posts/new')} color="inherit">
-            <AddIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+            <div className={classes.growBig} />
+            <Button onClick={() => this.props.history.push('/')} color="inherit">Posts</Button>
+            <IconButton onClick={() => this.props.history.push('/posts/new')} color="inherit">
+              <AddIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = state => (
   {
     filter: state.render.filter,
+    authenticated: state.auth.authenticated,
   }
 );
 
-export default withRouter(connect(mapStateToProps, { setFilter })(withStyles(styles)(NavBar)));
+export default withRouter(connect(mapStateToProps, { setFilter, signoutUser })(withStyles(styles)(NavBar)));

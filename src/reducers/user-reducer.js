@@ -16,12 +16,16 @@ const initialState = {
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.AUTH_USER:
+      console.log(action.payload);
       return {
-        user: action.payload.user,
+        user: action.payload,
         authenticated: true,
       };
     case ActionTypes.DEAUTH_USER:
-      return state;
+      return {
+        user: initialState.user,
+        authenticated: false,
+      };
     case ActionTypes.AUTH_ERROR:
       return state;
     default:
