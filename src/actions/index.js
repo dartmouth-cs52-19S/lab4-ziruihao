@@ -15,8 +15,8 @@ export const ActionTypes = {
   AUTH_ERROR: 'AUTH_ERROR',
 };
 
-const ROOT_URL = 'https://cs52-lab5-ziruihao.herokuapp.com/api';
-// const ROOT_URL = 'http://localhost:9090/api';
+// const ROOT_URL = 'https://cs52-lab5-ziruihao.herokuapp.com/api';
+const ROOT_URL = 'http://localhost:9090/api';
 
 /**
  * Relays error to store.
@@ -98,6 +98,7 @@ export function signoutUser(history) {
   return (dispatch) => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    axios.defaults.headers.common = { Authorization: null };
     dispatch({ type: ActionTypes.DEAUTH_USER });
     history.push('/');
   };
