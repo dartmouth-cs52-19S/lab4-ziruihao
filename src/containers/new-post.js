@@ -13,7 +13,9 @@ import TextField from '@material-ui/core/TextField';
 import classnames from 'classnames';
 
 // imports ActionCreators
-import { makePost } from '../actions';
+import { makePost, relayError } from '../actions';
+
+import * as s3 from '../services/s3';
 
 const styles = ({
   root: {
@@ -59,6 +61,8 @@ class NewPost extends React.Component {
         tags: [],
         cover_url: '',
       },
+      preview: {},
+      file: {},
     };
   }
 
@@ -73,7 +77,16 @@ class NewPost extends React.Component {
     if (this.state.input.tags.length === 0) {
       inputModified.tags = ['#notags'];
     }
-    this.props.makePost(inputModified, this.props.history);
+    if (this.state.file) {
+      s3.uploadImage(this.state.file).then((url) => {
+        // use url for content_url and
+        // either run your createPost actionCreator
+        // or your updatePost actionCreator
+        this.props.makePost(inputModified, this.props.history);
+      }).catch((error) => {
+        this.props.relayError(error.message);
+      });
+    }
   }
 
   /**
@@ -81,6 +94,7 @@ class NewPost extends React.Component {
    */
   onInputChange = (event) => {
     const { value } = event.target;
+    const file = event.target.files[0];
     const prevState = this.state;
     switch (event.target.id) {
       case 'title':
@@ -100,9 +114,14 @@ class NewPost extends React.Component {
         });
         break;
       case 'cover-url':
-        this.setState({
-          input: Object.assign({}, prevState.input, { cover_url: value }),
-        });
+        // Handle null file
+        // Get url of the file and set it to the src of preview
+        if (file) {
+          this.setState({ preview: window.URL.createObjectURL(file), file });
+        }
+        // this.setState({
+        //   input: Object.assign({}, prevState.input, { cover_url: value }),
+        // });
         break;
       default:
         break;
@@ -163,6 +182,8 @@ class NewPost extends React.Component {
               multiline
               fullWidth
             />
+            <img id="preview" alt="preview" src={this.state.preview} />
+            <input type="file" name="coverImage" onChange={this.onImageUpload} />
             <div id="submitArea">
               <Button onClick={this.postValidator} size="medium" variant="contained" color="primary" className={classes.button}>Save</Button>
               <Button onClick={() => this.props.history.push('/')} size="medium" variant="contained" color="default" className={classes.button}>Cancel</Button>
@@ -174,4 +195,4 @@ class NewPost extends React.Component {
   }
 }
 
-export default withRouter(connect(null, { makePost })(withStyles(styles)(NewPost)));
+export default withRouter(connect(null, { makePost, relayError })(withStyles(styles)(NewPost)));
