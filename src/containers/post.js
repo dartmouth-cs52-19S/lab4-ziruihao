@@ -28,7 +28,7 @@ import marked from 'marked';
 
 // actions imports
 import {
- updatePost, currentizePost, removePost, relayError 
+  updatePost, currentizePost, removePost, relayError,
 } from '../actions';
 
 import * as s3 from '../services/s3';
@@ -63,6 +63,10 @@ const styles = ({
   actions: {
     display: 'flex',
     padding: '16px 0 0 0',
+  },
+  previewImage: {
+    width: 400,
+    height: 'auto',
   },
 });
 
@@ -115,6 +119,9 @@ class Post extends React.Component {
     }
     if (this.state.file) {
       s3.uploadImage(this.state.file).then((url) => {
+        this.setState(prevState => ({
+          input: Object.assign({}, prevState.input, { cover_url: url }),
+        }));
         // use url for content_url and
         // either run your createPost actionCreator
         // or your updatePost actionCreator
@@ -131,7 +138,6 @@ class Post extends React.Component {
    */
   onInputChange = (event) => {
     const { value } = event.target;
-    const file = event.target.files[0];
     const prevState = this.state;
     switch (event.target.id) {
       case 'title':
@@ -153,8 +159,8 @@ class Post extends React.Component {
       case 'cover-url':
         // Handle null file
         // Get url of the file and set it to the src of preview
-        if (file) {
-          this.setState({ preview: window.URL.createObjectURL(file), file });
+        if (event.target.files[0]) {
+          this.setState({ preview: window.URL.createObjectURL(event.target.files[0]), file: event.target.files[0] });
         }
         // this.setState({
         //   input: Object.assign({}, prevState.input, { cover_url: value }),
@@ -264,7 +270,7 @@ class Post extends React.Component {
                 multiline
                 fullWidth
               />
-              <TextField
+              {/* <TextField
                 id="cover-url"
                 label="Cover image url"
                 className={classnames(classes.textField)}
@@ -274,9 +280,9 @@ class Post extends React.Component {
                 margin="none"
                 multiline
                 fullWidth
-              />
-              <img id="preview" alt="preview" src={this.state.preview} />
-              <input type="file" name="coverImage" onChange={this.onImageUpload} />
+              /> */}
+              <img id="preview" className={classes.previewImage} alt="preview" src={this.state.preview} />
+              <input id="cover-url" type="file" name="coverImage" onChange={this.onInputChange} />
               <div id="submitArea">
                 <Button onClick={this.postValidator} size="medium" variant="contained" color="primary">Save</Button>
               </div>
@@ -352,5 +358,5 @@ const mapStateToProps = state => (
 );
 
 export default withRouter(connect(mapStateToProps, {
- updatePost, currentizePost, removePost, relayError 
+  updatePost, currentizePost, removePost, relayError,
 })(withStyles(styles)(Post)));

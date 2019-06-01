@@ -15,7 +15,7 @@ import classnames from 'classnames';
 // imports ActionCreators
 import { makePost, relayError } from '../actions';
 
-import * as s3 from '../services/s3';
+import uploadImage from '../services/s3';
 
 const styles = ({
   root: {
@@ -48,6 +48,10 @@ const styles = ({
   button: {
     margin: '0 16px 0 16px',
   },
+  previewImage: {
+    width: 400,
+    height: 'auto',
+  },
 });
 
 class NewPost extends React.Component {
@@ -78,7 +82,10 @@ class NewPost extends React.Component {
       inputModified.tags = ['#notags'];
     }
     if (this.state.file) {
-      s3.uploadImage(this.state.file).then((url) => {
+      uploadImage(this.state.file).then((url) => {
+        this.setState(prevState => ({
+          input: Object.assign({}, prevState.input, { cover_url: url }),
+        }));
         // use url for content_url and
         // either run your createPost actionCreator
         // or your updatePost actionCreator
@@ -94,7 +101,6 @@ class NewPost extends React.Component {
    */
   onInputChange = (event) => {
     const { value } = event.target;
-    const file = event.target.files[0];
     const prevState = this.state;
     switch (event.target.id) {
       case 'title':
@@ -116,8 +122,8 @@ class NewPost extends React.Component {
       case 'cover-url':
         // Handle null file
         // Get url of the file and set it to the src of preview
-        if (file) {
-          this.setState({ preview: window.URL.createObjectURL(file), file });
+        if (event.target.files[0]) {
+          this.setState({ preview: window.URL.createObjectURL(event.target.files[0]), file: event.target.files[0] });
         }
         // this.setState({
         //   input: Object.assign({}, prevState.input, { cover_url: value }),
@@ -171,7 +177,7 @@ class NewPost extends React.Component {
               multiline
               fullWidth
             />
-            <TextField
+            {/* <TextField
               id="cover-url"
               label="Cover image url"
               className={classnames(classes.padded)}
@@ -181,9 +187,9 @@ class NewPost extends React.Component {
               margin="none"
               multiline
               fullWidth
-            />
-            <img id="preview" alt="preview" src={this.state.preview} />
-            <input type="file" name="coverImage" onChange={this.onImageUpload} />
+            /> */}
+            <img id="preview" className={classes.previewImage} alt="preview" src={this.state.preview} />
+            <input id="cover-url" type="file" name="coverImage" onChange={this.onInputChange} />
             <div id="submitArea">
               <Button onClick={this.postValidator} size="medium" variant="contained" color="primary" className={classes.button}>Save</Button>
               <Button onClick={() => this.props.history.push('/')} size="medium" variant="contained" color="default" className={classes.button}>Cancel</Button>
