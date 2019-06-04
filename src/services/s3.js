@@ -15,6 +15,7 @@ function uploadFileToS3(signedRequest, file, url) {
     axios.put(signedRequest, file, { headers: { 'Content-Type': file.type } }).then((response) => {
       fulfill(url);
     }).catch((error) => {
+      console.log(error);
       reject(error);
     });
   });
@@ -23,6 +24,9 @@ function uploadFileToS3(signedRequest, file, url) {
 export default function uploadImage(file) {
   // returns a promise so you can handle error and completion in your component
   return getSignedRequest(file).then((response) => {
+    console.log('hi');
+    console.log(file);
+    console.log(response.data.signedRequest);
     return uploadFileToS3(response.data.signedRequest, file, response.data.url);
   });
 }
